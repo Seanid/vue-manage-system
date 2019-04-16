@@ -7,12 +7,21 @@
         <div class="logo">后台管理系统</div>
         <div class="header-right">
             <div class="header-user-con">
-                <!-- 全屏显示 -->
-                <div class="btn-fullscreen" @click="handleFullScreen">
-                    <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
-                        <i class="el-icon-rank"></i>
-                    </el-tooltip>
-                </div>
+                
+                <!-- 系统选择下拉菜单 -->
+                <el-dropdown @command="handleSysSelect">
+                    <span class="el-dropdown-link">
+                        <i class="el-icon-caret-bottom">[系统]{{currSys}}</i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item v-for="sys in sysList" :command='sys'>
+                                {{sys.name}}
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+
+                <!--间距-->
+                <div class="padding-left-20"></div>
                 <!-- 消息中心 -->
                 <div class="btn-bell">
                     <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
@@ -30,12 +39,6 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <a href="http://blog.gdfengshuo.com/about/" target="_blank">
-                            <el-dropdown-item>关于作者</el-dropdown-item>
-                        </a>
-                        <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
-                            <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a>
                         <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -45,18 +48,23 @@
 </template>
 <script>
     import bus from '../common/bus';
+    import common from '../common/common'
     export default {
         data() {
             return {
                 collapse: false,
-                fullscreen: false,
-                name: 'linxin',
-                message: 2
+                name: 'admin',
+                message: 0,
+                currSys:'用户管理系统',
+                sysList:[
+                    {name:'用户管理系统',url:'http://baidu.com'},
+                    {name:'其他管理系统',url:'http://sina.com'},
+                ]
             }
         },
         computed:{
             username(){
-                let username = localStorage.getItem('ms_username');
+                let username = common.getUserName();
                 return username ? username : this.name;
             }
         },
@@ -64,7 +72,7 @@
             // 用户名下拉菜单选择事件
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
+                    common.logout();
                     this.$router.push('/login');
                 }
             },
@@ -73,32 +81,22 @@
                 this.collapse = !this.collapse;
                 bus.$emit('collapse', this.collapse);
             },
-            // 全屏事件
-            handleFullScreen(){
-                let element = document.documentElement;
-                if (this.fullscreen) {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitCancelFullScreen) {
-                        document.webkitCancelFullScreen();
-                    } else if (document.mozCancelFullScreen) {
-                        document.mozCancelFullScreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                } else {
-                    if (element.requestFullscreen) {
-                        element.requestFullscreen();
-                    } else if (element.webkitRequestFullScreen) {
-                        element.webkitRequestFullScreen();
-                    } else if (element.mozRequestFullScreen) {
-                        element.mozRequestFullScreen();
-                    } else if (element.msRequestFullscreen) {
-                        // IE11
-                        element.msRequestFullscreen();
+            // 系统选择事件
+            handleSysSelect(sys){
+                if(!sys){
+                    return;
+                }else{
+                    //当前系统不跳转
+                    if(sys.name&&sys.name===this.currSys){
+                        return ;
+                    }else if (sys.name&&sys.name!=this.currSys){
+                        //只有https或者http才进行跳转
+                        if(sys.url&&(sys.url.startsWith("http")||sys.url.startsWith("https"))){
+                            window.open(sys.url,'_blank');
+                        }
                     }
                 }
-                this.fullscreen = !this.fullscreen;
+                
             }
         },
         mounted(){
@@ -181,5 +179,8 @@
     }
     .el-dropdown-menu__item{
         text-align: center;
+    }
+    .padding-left-20{
+        padding-left: 20px
     }
 </style>

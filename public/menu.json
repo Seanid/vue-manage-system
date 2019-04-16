@@ -1,0 +1,93 @@
+{
+    "menulist":[
+        {
+            "icon": "el-icon-lx-home",
+            "url": "index",
+            "name": "系统首页"
+        },
+        {
+            "icon": "el-icon-lx-home",
+            "url": "dashboard",
+            "name": "控制面板"
+        },
+        {
+            "icon": "el-icon-lx-cascades",
+            "url": "table",
+            "name": "基础表格"
+        },
+        {
+            "icon": "el-icon-lx-copy",
+            "url": "tabs",
+            "name": "tab选项卡"
+        },
+        {
+            "icon": "el-icon-lx-calendar",
+            "url": "3",
+            "name": "表单相关",
+            "subs": [
+                {
+                    "url": "form",
+                    "name": "基本表单"
+                },
+                {
+                    "url": "3-2",
+                    "name": "三级菜单",
+                    "subs": [
+                        {
+                            "url": "editor",
+                            "name": "富文本编辑器"
+                        },
+                        {
+                            "url": "markdown",
+                            "name": "markdown编辑器"
+                        }
+                    ]
+                },
+                {
+                    "url": "upload",
+                    "name": "文件上传"
+                }
+            ]
+        },
+        {
+            "icon": "el-icon-lx-emoji",
+            "url": "icon",
+            "name": "自定义图标"
+        },
+        {
+            "icon": "el-icon-lx-favor",
+            "url": "charts",
+            "name": "schart图表"
+        },
+        {
+            "icon": "el-icon-rank",
+            "url": "6",
+            "name": "拖拽组件",
+            "subs": [
+                {
+                    "url": "drag",
+                    "name": "拖拽列表"
+                },
+                {
+                    "url": "dialog",
+                    "name": "拖拽弹框"
+                }
+            ]
+        },
+        {
+            "icon": "el-icon-lx-warn",
+            "url": "7",
+            "name": "错误处理",
+            "subs": [
+                {
+                    "url": "permission",
+                    "name": "权限测试"
+                },
+                {
+                    "url": "404",
+                    "name": "404页面"
+                }
+            ]
+        }
+    ]
+}

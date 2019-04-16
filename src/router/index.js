@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/dashboard'
+            redirect: '/index'
         },
         {
             path: '/',
@@ -15,9 +15,14 @@ export default new Router({
             meta: { title: '自述文件' },
             children:[
                 {
+                    path: '/index',
+                    component: resolve => require(['../components/page/Index.vue'], resolve),
+                    meta: { title: '系统首页' }
+                },
+                {
                     path: '/dashboard',
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
-                    meta: { title: '系统首页' }
+                    meta: { title: '面板' }
                 },
                 {
                     path: '/icon',
